@@ -7,7 +7,7 @@ export default function Alunno({alunno, loadAlunni}){
 
     async function cancellaAlunno(){
         setInCancellazione(true);
-        const response =  await fetch(`http://localhost:8080/alunni/${alunno.id}`, {method: "DELETE"});
+        await fetch(`http://localhost:8080/alunni/${alunno.id}`, {method: "DELETE"});
         loadAlunni();
         setInCancellazione(false);
     }
