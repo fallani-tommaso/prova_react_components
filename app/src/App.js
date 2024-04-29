@@ -4,9 +4,15 @@ import { useState, useEffect } from 'react';
 
 
 function App() {
-  const [alunni, setAlunni] = useState([]);
-  const[inCaricamento, setInCaricamento] = useState(false);
 
+  //VARIABILI DI STATO
+  const [alunni, setAlunni] = useState([]);
+  const [inCaricamento, setInCaricamento] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+
+  //PER FORM
+  const [nome, setNome] = useState("");
+  const [cognome, setCognome] = useState("");
 
   useEffect(() => {
     loadAlunni();  
@@ -20,24 +26,59 @@ function App() {
     setInCaricamento(false);
   };
 
+
+  async function salvaAlunno(){
+    await fetch(`http://localhost:8080/alunni`, 
+      {
+        method: "POST",
+        headers: {"Content-type": "application/json"},
+        body: JSON.stringify({nome: nome, cognome: cognome})
+      }
+    );
+    loadAlunni();
+    setShowForm(false);
+  }
+
+  function gestisciCambioNome(e){
+    setNome(e.target.value);
+  }
+
+  function gestisciCambioCognome(e){
+    setCognome(e.target.value);
+  }
+
+
   return (
     <div className="App">
-      <button onClick={loadAlunni}>Carica alunni</button>
+      <button onClick={loadAlunni} className='bottone'>Carica alunni</button>
       <hr />
       { 
         inCaricamento ? 
-          <div>In caricamento... </div>
+          <div className='carica'>In caricamento... </div>
         :
           alunni.map((alunno) => (
             <Alunno alunno={alunno} loadAlunni={loadAlunni}  key={alunno.id} />
           ))
+      }
+      <br/>
+      <br />
+      <button onClick={() => setShowForm(true)} className='bottone'>Inserisci nuovo alunno</button>
+
+      { showForm &&
+        <div>
+          <h1>Form di inserimento</h1>
+
+          <h2>Nome:     <input type="text" onChange={gestisciCambioNome} value={nome} placeholder="Inserisci il nome" ></input> </h2>
+
+          <h2>Cognome:  <input type="text" onChange={gestisciCambioCognome} value={cognome} placeholder="Inserisci il cognome" ></input> </h2>
+
+          <br />
+          <button onClick={salvaAlunno} className='bottone'>Salva</button>
+          <button onClick={() => setShowForm(false)} className='bottone'>Annulla</button>
+        </div>
       }
     </div>
   );
 }
 
 export default App;
-
-
-
-
