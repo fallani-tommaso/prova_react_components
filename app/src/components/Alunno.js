@@ -18,7 +18,7 @@ return(
             (!inCancellazione && !showModifica) &&
             <>
                 {` ${alunno.nome} ${alunno.cognome} `}
-            </>   
+            </>
         }
         <Cancellazione id={alunno.id} setInsert={setInsert} caricaAlunni={caricaAlunni} inConferma={inConferma} setInConferma={setInConferma} inModifica={inModifica} inCancellazione={inCancellazione} setInCancellazione={setInCancellazione}/>
         <Modifica id={alunno.id} setInsert={setInsert} caricaAlunni={caricaAlunni} inModifica={inModifica} setInModifica={setInModifica} inConferma={inConferma} showModifica={showModifica} setShowModifica={setShowModifica}/>

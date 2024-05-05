@@ -21,12 +21,11 @@ function App() {
     caricaAlunni();
   }, [])
 
-
   return (
     <div className="App">
       { 
         inCaricamento ?
-          <div className="carica">In caricamento... </div>
+          <div className="carica">In caricamento...</div>
         :
         (
           <>

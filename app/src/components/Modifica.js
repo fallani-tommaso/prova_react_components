@@ -11,7 +11,7 @@ export default function Modifica({ id, setInsert, caricaAlunni, inModifica, setI
         setShowModifica(true);
         await fetch(`http://localhost:8080/alunni/${id}`, {
           method: "PUT",
-          headers: { "Content-type": "application/json" },
+          headers: { "Content-type": "application/json"},
           body: JSON.stringify({ nome: nome, cognome: cognome })
         });
         caricaAlunni();
