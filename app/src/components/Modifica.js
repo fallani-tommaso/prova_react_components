@@ -1,9 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 
-export default function Modifica({ id, setInsert, caricaAlunni, inModifica, setInModifica, inConferma }) {
-    //Variabili di stato
-    const [showModifica, setShowModifica] = useState(false);
+export default function Modifica({ id, setInsert, caricaAlunni, inModifica, setInModifica, inConferma, showModifica, setShowModifica }) {
     
     //Variabili di stato per form
     const [nome, setNome] = useState("");
@@ -18,6 +16,7 @@ export default function Modifica({ id, setInsert, caricaAlunni, inModifica, setI
         });
         caricaAlunni();
         setShowModifica(false);
+        setInsert(true);
       }
     
       function richiediModifica(){

@@ -1,9 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 
-export default function Cancellazione({ id, setInsert, caricaAlunni, inConferma, setInConferma, inModifica}) {
-    //Variabili di stato
-    const [inCancellazione, setInCancellazione] = useState(false);
+export default function Cancellazione({ id, setInsert, caricaAlunni, inConferma, setInConferma, inModifica, inCancellazione, setInCancellazione}) {
     
     async function cancellaAlunno() {
         setInCancellazione(true);
@@ -13,6 +11,7 @@ export default function Cancellazione({ id, setInsert, caricaAlunni, inConferma,
         });
         caricaAlunni();
         setInCancellazione(false);
+        setInsert(true);
       }
     
       function richiediConferma() {
@@ -46,7 +45,6 @@ return(
             <>
               { !inModifica &&
                 <>
-                {" "}
                 <button onClick={richiediConferma} className="bottone">Cancella</button>
                 {" "}
                 </>
