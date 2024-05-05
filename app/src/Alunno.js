@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-export default function Alunno({ alunno, loadAlunni }) {
+export default function Alunno({ alunno, loadAlunni, setInsert }) {
   //VARIABILI DI STATO
   const [contatore, setContatore] = useState(alunno.id);
   const [inCancellazione, setInCancellazione] = useState(false);
-  const [inConferma, setInConfermaCancellazione] = useState(false);
+  const [inConferma, setInConferma] = useState(false);
   const [inModifica, setInModifica] = useState(false);
   const [showModifica, setShowModifica] = useState(false);
 
@@ -18,7 +18,8 @@ export default function Alunno({ alunno, loadAlunni }) {
 
   async function cancellaAlunno() {
     setInCancellazione(true);
-    const response = await fetch(`http://localhost:8080/alunni/${alunno.id}`, {
+    await fetch(`http://localhost:8080/alunni/${alunno.id}`, 
+    {
       method: "DELETE",
     });
     loadAlunni();
@@ -26,11 +27,13 @@ export default function Alunno({ alunno, loadAlunni }) {
   }
 
   function richiediConferma() {
-    setInConfermaCancellazione(true);
+    setInsert(false);
+    setInConferma(true);
   }
 
   function annullaCancellazione() {
-    setInConfermaCancellazione(false);
+    setInsert(true);
+    setInConferma(false);
   }
 
   async function modificaAlunno() {
@@ -45,10 +48,12 @@ export default function Alunno({ alunno, loadAlunni }) {
   }
 
   function richiediModifica(){
+    setInsert(false);
     setInModifica(true);
   }
 
   function annullaModifica() {
+    setInsert(true);
     setInModifica(false);
   }
 
@@ -63,39 +68,57 @@ export default function Alunno({ alunno, loadAlunni }) {
   return (
     <div>
       <p className="paragrafo">
-        {!showModifica && <>{`${alunno.nome} ${alunno.cognome} `}</>}
-        <button onClick={incrementaNumero} className="bottone">
-          {contatore}
-        </button>
+        {!showModifica && 
+          <>
+            {`${alunno.nome} ${alunno.cognome} `}
+          </>
+        }
+        {!showModifica &&
+          <>
+            <button onClick={incrementaNumero} className="bottone">
+              {contatore}
+            </button>
+          </>
+        }
         {inCancellazione ? (
           <div className="elimina_modifica">Cancellazione in corso...</div>
-        ) : (
+        ) 
+        : 
+        (
           <span className="conferma">
             {inConferma ? (
-              <div>
+              <>
                 <br />
-                <span>
-                  Sei sicuro?
-                  <button onClick={cancellaAlunno} className="bottone">si</button>
-                  <button onClick={annullaCancellazione} className="bottone">no</button>
-                </span>
-              </div>
-            ) : (
-              <span>
+                <br />
+                Sei sicuro?
+                <button onClick={cancellaAlunno} className="bottone">si</button>
+                <button onClick={annullaCancellazione} className="bottone">no</button>
+              </>
+            ) : 
+              (
+              <>
                 { !inModifica &&
+                  <>
+                  {" "}
                   <button onClick={richiediConferma} className="bottone">Cancella</button>
+                  {" "}
+                  </>
                 }
-              </ span>
-            )}
+              </>
+              )
+            }
           </span>
-        )}
+        )
+        }
 
         {showModifica ? (
           <div className="elimina_modifica">Modifica in corso...</div>
-        ) : (
+        ) 
+        : 
+        (
           <span className="conferma">
             {inModifica ? (
-              <div>
+              <>
                 <br />
                 <input type="text" onChange={gestisciCambioNome} value={nome} placeholder="Inserisci il nome"></input>
                 <input type="text" onChange={gestisciCambioCognome} value={cognome} placeholder="Inserisci il cognome"></input>
@@ -103,14 +126,14 @@ export default function Alunno({ alunno, loadAlunni }) {
                 <br />
                 <button onClick={modificaAlunno} className="bottone">Salva modifica</button>
                 <button onClick={annullaModifica} className="bottone">Annulla modifica</button>
-              </div>
+              </>
             ) 
             : (
-              <span>
-                {!inConferma && (
+              <>
+                {!inConferma && 
                   <button onClick={richiediModifica} className="bottone">Modifica</button>
-                )}
-              </span>
+                }
+              </>
             )
             }
           </span>

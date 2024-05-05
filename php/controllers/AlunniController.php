@@ -63,5 +63,6 @@ class AlunniController
     $response->getBody()->write(json_encode($results, JSON_NUMERIC_CHECK));
     return $response->withHeader("Content-type", "application/json")->withStatus(200);
   }
+  
 
 }
